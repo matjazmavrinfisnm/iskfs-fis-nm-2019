@@ -44,12 +44,12 @@ board.digitalRead(2, function(value) {
     if (value == 0) {
         console.log("LED izklopljena");
         board.digitalWrite(13, board.LOW);
-        pošljiVrednostPrekoVtičnika(0);
+
     }
     if (value == 1) {
         console.log("LED vklopljena");
         board.digitalWrite(13, board.HIGH);
-        pošljiVrednostPrekoVtičnika(1);
+
     }
     
 }); // konec "board.digitalRead"
