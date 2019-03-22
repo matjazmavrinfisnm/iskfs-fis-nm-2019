@@ -17,7 +17,6 @@
 <script type="text/javascript">
 
 var socket = io.connect("192.168.1.203:8080"); // povez. prek vtičnika
-
 function prižgi1 () {
     socket.emit("ukazArduinu", 1); // na strežnik pošljem 1
 }
@@ -25,6 +24,7 @@ function prižgi1 () {
 function ugasni1 () {
     socket.emit("ukazArduinu", 0); // na strežnik pošljem 0
 }
+
 
 </script>
     
