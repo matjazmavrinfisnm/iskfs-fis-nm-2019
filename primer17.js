@@ -19,7 +19,7 @@ var board = new firmata.Board("/dev/ttyACM0", function(){
 });
 
 function handler(req, res) {
-    fs.readFile(__dirname + "/naloga12.html",
+    fs.readFile(__dirname + "/primer17.html",
     function(err, data) {
         if (err) {
             res.writeHead(500, {"Content-Type": "text/plain"});
@@ -52,8 +52,6 @@ var zadnjiErr = 0; // da obdržimo vrednost prejšnje napake
 var kontrolniAlgoritemVključen = 0; // spremenljivka, ki določa ali je ctrl. alg. vključen
 var intervalCtrl; // spremenljivka za setInterval v globalnem prostoru
 
-var zastavicaBeriAnalogniPinA0 = 1;
-
 console.log("Zagon sistema"); // izpis sporočila o zagonu
 
 var pošljiVrednostPrekoVtičnika = function(){}; // spr. za pošiljanje sporočil
@@ -63,7 +61,7 @@ board.on("ready", function(){
     console.log("Plošča pripravljena");
 
     board.analogRead(0, function(value){
-        if (zastavicaBeriAnalogniPinA0 == 1) želenaVrednost = value; // neprekinjeno branje pina A0
+        želenaVrednost = value; // neprekinjeno branje pina A0
     });
     board.analogRead(1, function(value){
         dejanskaVrednost = value; // neprekinjeno branje pina A1
@@ -83,14 +81,7 @@ board.on("ready", function(){
         
         socket.on("stopKontrolniAlgoritem", function(){
            stopKontrolniAlgoritem(); 
-        });
-        
-        socket.on("pošljiPozicijo", function(pozicija) {
-            zastavicaBeriAnalogniPinA0 = 0; // ne beremo več iz analognega pina A0, želena vrednost pride preko vmesnika
-            želenaVrednost = pozicija; // GUI takes control
-            socket.emit("pošljiŽelenoVrednost", pozicija)
-        });
-
+        });   
         
     pošljiVrednostPrekoVtičnika = function (value) {
         io.sockets.emit("sporočiloKlientu", value);
@@ -166,7 +157,10 @@ function pošljiVrednosti(socket) {
     {
         "želenaVrednost": želenaVrednost,
         "dejanskaVrednost": dejanskaVrednost,
-        "pwm": pwm
+        "pwm": pwm,
+        "err": err,
+        "errVsota": errVsota,
+        "dErr": dErr
     });
 };
 
