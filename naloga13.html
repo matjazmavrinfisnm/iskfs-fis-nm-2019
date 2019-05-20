@@ -10,6 +10,15 @@ Kontrolni sistem P / PID
 <br>
 <canvas id="cv" width = "200" height = "100" style="border: 1px dashed #00c3c3;"></canvas>
 <p></p>
+Pozicija: <input id="pozicija" value=0 />    
+<button id="pošljiPozicijo" onClick="pošljiPozicijo()">Pošlji pozicijo</button>
+<p></p>
+<button id="pošljiMinus80" onClick="pošljiMinus80()">Pošlji -80</button>
+<button id="pošljiMinus40" onClick="pošljiMinus40()">Pošlji -40</button>
+<button id="pošlji0" onClick="pošlji0()">Pošlji 0</button>
+<button id="pošljiPlus40" onClick="pošljiPlus40()">Pošlji +40</button>
+<button id="pošljiPlus80" onClick="pošljiPlus80()">Pošlji +80</button>
+<p></p>
 faktor: <input id="faktor" value="0.5" size="5" />
 <button id="startKontrolniAlgoritem1" onClick="startKontrolniAlgoritem1();">Start Ctrl Alg</button>
 <button id="stopKontrolniAlgoritem" onClick="stopKontrolniAlgoritem();">Stop Ctrl Alg</button>
@@ -19,14 +28,6 @@ Ki: <input id="Ki1" value="0.0055" size = "5" />
 Kd: <input id="Kd1" value="0.25" size = "5" />
 <button id="startKontrolniAlgoritem2" onClick="startKontrolniAlgoritem2();">Start Ctrl Alg2</button>
 <button id="stopKontrolniAlgoritem" onClick="stopKontrolniAlgoritem();">Stop Kontrolni Alg</button>
-<p></p>
-Pozicija: <input id="pozicija" value=700 size="5"/>    
-<button id="pošljiPozicijo" onClick="pošljiPozicijo()">Pošlji</button>
-<button id="pošljiMinus80" onClick="pošljiMinus80()">Skrajno levo</button>
-<button id="pošljiMinus40" onClick="pošljiMinus40()">Levo</button>
-<button id="pošlji0" onClick="pošlji0()">Sredina</button>
-<button id="pošljiPlus40" onClick="pošljiPlus40()">Desno</button>
-<button id="pošljiPlus80" onClick="pošljiPlus80()">Skrajno desno</button>
 <p></p>
 <div id="divZaStatičniIzpis">Status: ×</div>
 <p></p>
@@ -51,8 +52,7 @@ var divZaIzpis = document.getElementById("divZaIzpis"); // var za div el.
 var štVrsticPredPomikom = 10;
 var števecIzpisanihVrstic = 0;
 
-var socket = io.connect("192.168.1.203:8080"); // povezava na strež.
-var socket1 = io.connect("192.168.1.101:8080"); // povezava na strež.
+var socket = io.connect("192.168.1.136:8080"); // povezava na strež.
 
 function load() {
     canvas = document.getElementById("cv");
@@ -170,22 +170,20 @@ function startKontrolniAlgoritem2() {
     Ki1 = document.getElementById("Ki1").value; // beremo vrednost iz vnosnega polja
     Kd1 = document.getElementById("Kd1").value; // beremo vrednost iz vnosnega polja
     socket.emit("startKontrolniAlgoritem", {"štKontrolnegaAlg": 2, "Kp1": Kp1, "Ki1": Ki1, "Kd1": Kd1}); // pošljemo json z vrednostmi na strežnik
-    socket1.emit("startKontrolniAlgoritem", {"štKontrolnegaAlg": 2, "Kp1": Kp1, "Ki1": Ki1, "Kd1": Kd1}); // pošljemo json z vrednostmi na strežnik
 }
 
 function pošljiPozicijo () {
-    var vrednostPozicije = document.getElementById("pozicija").value;
+    var vrednostPozicijeKot = document.getElementById("pozicija").value;
     socket.emit("pošljiPozicijo", vrednostPozicije);
-    socket1.emit("pošljiPozicijo", vrednostPozicije);
 };
 
 function pošljiMinus80 () {
-    var vrednostPozicije = 239;
+    var vrednostPozicije = 239.2;
     socket.emit("pošljiPozicijo", vrednostPozicije);
 };
 
 function pošljiMinus40 () {
-    var vrednostPozicije = 375;
+    var vrednostPozicije = 375.6;
     socket.emit("pošljiPozicijo", vrednostPozicije);
 };
 
@@ -195,14 +193,15 @@ function pošlji0 () {
 };
 
 function pošljiPlus40 () {
-    var vrednostPozicije = 648;
+    var vrednostPozicije = 648.4;
     socket.emit("pošljiPozicijo", vrednostPozicije);
 };
 
 function pošljiPlus80() {
-    var vrednostPozicije = 784;
+    var vrednostPozicije = 784.8;
     socket.emit("pošljiPozicijo", vrednostPozicije);
 };
+
 
 function stopKontrolniAlgoritem() {
     socket.emit("stopKontrolniAlgoritem");

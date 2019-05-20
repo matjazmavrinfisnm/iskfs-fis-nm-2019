@@ -114,7 +114,7 @@ function kontrolniAlgoritem (parametri) {
         if (pwm > 0) {board.digitalWrite(2,0)}; // določimo smer če je > 0
         if (pwm < 0) {board.digitalWrite(2,1)}; // določimo smer če je < 0
         board.analogWrite(3, Math.abs(pwm)); // zapišemo abs vrednost na pin 3
-        if (dejanskaVrednost < 150 || dejanskaVrednost > 910) {
+        if (dejanskaVrednost < 140 || dejanskaVrednost > 910) {
             stopKontrolniAlgoritem();
         }
     }
@@ -131,7 +131,7 @@ function kontrolniAlgoritem (parametri) {
         if (pwm < 0) {board.digitalWrite(2,1)}; // določimo smer če je < 0
         board.analogWrite(3, Math.abs(pwm)); // zapišemo abs vrednost na pin 3
     
-        if (dejanskaVrednost < 200 || dejanskaVrednost > 850) {
+        if (dejanskaVrednost < 140 || dejanskaVrednost > 910) {
             stopKontrolniAlgoritem();
         }
     }    
